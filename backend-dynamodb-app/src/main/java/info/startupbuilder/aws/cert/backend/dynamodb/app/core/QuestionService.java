@@ -13,10 +13,9 @@ public class QuestionService {
 
     private final QuestionRepository repository;
 
-    public void addQuestion() {
-        repository.save(Question.builder()
+    public Question addQuestion() {
+        return repository.save(Question.builder()
                 .value("Test" + LocalDateTime.now())
-//                .askTime(LocalDateTime.MAX)
                 .build());
     }
 

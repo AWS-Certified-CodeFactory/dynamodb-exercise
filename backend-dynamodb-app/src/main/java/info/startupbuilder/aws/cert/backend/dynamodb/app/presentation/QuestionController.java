@@ -5,6 +5,7 @@ import info.startupbuilder.aws.cert.backend.dynamodb.app.core.Question;
 import info.startupbuilder.aws.cert.backend.dynamodb.app.core.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,11 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService service;
+
+    @PostMapping
+    public Question create() {
+        return service.addQuestion();
+    }
 
     @GetMapping
     public List<Question> listAll() {
