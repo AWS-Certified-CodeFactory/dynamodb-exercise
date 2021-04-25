@@ -1,9 +1,7 @@
 package info.startupbuilder.aws.cert.backend.dynamodb.app.presentation;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
-import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
-import com.amazonaws.services.dynamodbv2.model.KeyType;
+import com.amazonaws.services.dynamodbv2.model.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -39,8 +37,17 @@ public class RootController {
 
     @PostMapping
     public void setup() {
-        dynamoDB.createTable(new CreateTableRequest("Question", Arrays.asList(
-                new KeySchemaElement("id", KeyType.HASH)
-        )));
+        var createTable = new CreateTableRequest("Question", Arrays.asList(
+                new KeySchemaElement("id", KeyType.HASH),
+                new KeySchemaElement("value", KeyType.RANGE)
+        ));
+        createTable.setAttributeDefinitions(Arrays.asList(
+                new AttributeDefinition("id", ScalarAttributeType.S),
+                new AttributeDefinition("value", ScalarAttributeType.S)
+        ));
+        createTable.setProvisionedThroughput(new ProvisionedThroughput(10L, 10L));
+
+
+        dynamoDB.createTable(createTable);
     }
 }
